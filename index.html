@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f6f3ec">
+  <meta name="description" content="Organize o amigo oculto da família e compartilhe sua lista de presentes.">
+  <title>Amigo Oculto da Família</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#inicio" aria-label="Amigo Oculto da Família, início"><span class="brand-icon">✳</span><span>laços<span class="brand-dot">.</span></span></a>
+    <nav><a href="#listas">Listas de presentes</a><button id="accountButton" class="nav-account" type="button">Entrar</button></nav>
+  </header>
+
+  <main id="inicio">
+    <section class="hero">
+      <div class="hero-copy"><span class="eyebrow"><span class="eyebrow-dot"></span> UM PRESENTE, MUITAS MEMÓRIAS</span>
+        <h1>Presentes que<br>têm <em>história.</em></h1>
+        <p>Reúna a família, descubra o que cada pessoa gostaria de ganhar e deixe a surpresa para o grande dia.</p>
+        <button class="primary-button" id="heroSignup" type="button">Criar minha lista <span aria-hidden="true">↗</span></button>
+        <div class="hero-note"><span class="note-avatars"><i>F</i><i>A</i><i>M</i></span><span>Um jeito simples de presentear com carinho</span></div>
+      </div>
+      <div class="hero-art" aria-label="Ilustração de presentes"><div class="sun"></div><div class="spark s1">✳</div><div class="spark s2">✦</div><div class="gift gift-back"><div class="ribbon"></div><div class="bow">⌒</div></div><div class="gift gift-front"><div class="ribbon"></div><div class="bow">⌒</div></div><div class="plant"><i></i><i></i><i></i></div><div class="art-caption">feito com carinho <span>♡</span></div></div>
+    </section>
+
+    <section class="how"><div class="section-heading"><span class="eyebrow">É FÁCIL ASSIM</span><h2>Três passos. Um Natal mais especial.</h2></div><div class="steps"><article><span class="step-number">01</span><div class="step-icon">♧</div><h3>Entre para a família</h3><p>Crie seu perfil com nome, idade e telefone. Seu número fica privado.</p></article><article><span class="step-number">02</span><div class="step-icon">♡</div><h3>Conte o que gostaria</h3><p>Escolha de 2 a 3 presentes e adicione nomes ou links de lojas.</p></article><article><span class="step-number">03</span><div class="step-icon">✦</div><h3>Inspire quem tirou você</h3><p>As listas ficam disponíveis para todo mundo encontrar o presente ideal.</p></article></div></section>
+
+    <section class="lists-section" id="listas"><div class="list-header"><div><span class="eyebrow">TODO MUNDO NA LISTA</span><h2>Ideias para presentear</h2></div><div class="search-wrap"><span>⌕</span><input id="searchInput" type="search" placeholder="Buscar alguém..." aria-label="Buscar pessoa"></div></div><div id="peopleGrid" class="people-grid"><div class="loading-state"><span class="loader"></span>Carregando listas...</div></div></section>
+  </main>
+  <footer><a class="brand footer-brand" href="#inicio"><span class="brand-icon">✳</span><span>laços<span class="brand-dot">.</span></span></a><span>Feito para reunir quem a gente ama.</span><span>Com carinho, para a família Souza <b>♡</b></span></footer>
+
+  <dialog id="authDialog" class="modal"><form method="dialog" class="modal-close-form"><button class="icon-button" aria-label="Fechar">×</button></form><div class="modal-inner"><div class="modal-mark">✳</div><span class="eyebrow">BOM TER VOCÊ AQUI</span><h2 id="authTitle">Entre para a família</h2><p id="authSubtitle">Vamos criar seu cantinho da lista. Você confirma o telefone com um código por SMS.</p>
+    <form id="authForm" novalidate><div id="signupFields"><label>Nome completo<input id="fullName" autocomplete="name" placeholder="Ex.: Ana Souza" required></label><label>Idade<input id="age" type="number" min="1" max="120" placeholder="Ex.: 32" required></label></div><div id="phoneField"><label>Telefone com DDD<input id="phone" type="tel" autocomplete="tel" placeholder="+55 11 99999-9999" required></label></div><div id="codeField" class="hidden"><label>Código recebido por SMS<input id="smsCode" inputmode="numeric" autocomplete="one-time-code" placeholder="000000" maxlength="8"></label></div><p id="authError" class="form-error" role="alert"></p><button id="authSubmit" type="submit" class="primary-button full-button">Continuar <span>↗</span></button></form><button id="authMode" class="text-button" type="button">Já tenho uma conta</button><p class="privacy-note">🔒 Seu telefone e sua idade nunca aparecem nas listas públicas.</p>
+  </div></dialog>
+
+  <dialog id="profileDialog" class="modal profile-modal"><form method="dialog" class="modal-close-form"><button class="icon-button" aria-label="Fechar">×</button></form><div class="modal-inner"><div class="modal-mark">♡</div><span class="eyebrow">SUA LISTA DE DESEJOS</span><h2 id="profileTitle">Minha lista</h2><p>Adicione de 2 a 3 ideias. Você pode editar sua lista sempre que quiser.</p><form id="productsForm"><div id="productFields"></div><p id="productsError" class="form-error" role="alert"></p><button class="primary-button full-button" type="submit">Salvar minha lista <span>↗</span></button></form><button id="signOutButton" class="text-button" type="button">Sair da conta</button></div></dialog>
+  <div id="toast" class="toast" role="status"></div>
+  <script src="app.js"></script>
+</body>
+</html>

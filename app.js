@@ -94,6 +94,27 @@ function formatBrazilianPhone(value) {
   if (subscriber.length <= firstGroupLength) return `${areaCode} ${subscriber}`;
   return `${areaCode} ${subscriber.slice(0, firstGroupLength)}-${subscriber.slice(firstGroupLength)}`;
 }
+function formatBirthDate(value) {
+  const digits = String(value || '').replace(/\D/g, '').slice(0, 8);
+  if (digits.length <= 2) return digits;
+  if (digits.length <= 4) return `${digits.slice(0, 2)}/${digits.slice(2)}`;
+  return `${digits.slice(0, 2)}/${digits.slice(2, 4)}/${digits.slice(4)}`;
+}
+function ageFromBirthDate(value) {
+  const match = String(value || '').match(/^(\d{2})\/(\d{2})\/(\d{4})$/);
+  if (!match) throw new Error('Informe sua data de nascimento no formato DD/MM/AAAA.');
+  const day = Number(match[1]); const month = Number(match[2]); const year = Number(match[3]);
+  const birthDate = new Date(year, month - 1, day);
+  if (birthDate.getFullYear() !== year || birthDate.getMonth() !== month - 1 || birthDate.getDate() !== day) {
+    throw new Error('A data de nascimento informada não é válida.');
+  }
+  const today = new Date();
+  let age = today.getFullYear() - year;
+  if (today.getMonth() < month - 1 || (today.getMonth() === month - 1 && today.getDate() < day)) age--;
+  if (birthDate > today) throw new Error('A data de nascimento não pode estar no futuro.');
+  if (age < 1 || age > 120) throw new Error('A idade calculada precisa estar entre 1 e 120 anos.');
+  return age;
+}
 function formatError(error) {
   const message = error.message || '';
   if (/invalid phone|phone.*invalid/i.test(message)) return 'Confira o telefone. Digite o DDD e o número, com 10 ou 11 dígitos (ex.: 31 99339-5418).';
@@ -142,6 +163,10 @@ function renderAuth() {
   setError('#authError');
 }
 $('#authMode').addEventListener('click', () => { state.signUp = !state.signUp; renderAuth(); });
+$('#birthDate').addEventListener('input', event => {
+  const input = event.currentTarget;
+  input.value = formatBirthDate(input.value);
+});
 $('#phone').addEventListener('input', event => {
   const input = event.currentTarget;
   input.value = formatBrazilianPhone(input.value);
@@ -156,9 +181,8 @@ $('#authForm').addEventListener('submit', async event => {
       const phone = `+55${phoneDigits}`;
       const meta = {};
       if (state.signUp) {
-        const fullName = $('#fullName').value.trim(); const age = Number($('#age').value);
+        const fullName = $('#fullName').value.trim(); const age = ageFromBirthDate($('#birthDate').value.trim());
         if (fullName.split(/\s+/).length < 2) throw new Error('Informe seu nome completo.');
-        if (!Number.isInteger(age) || age < 1 || age > 120) throw new Error('Informe uma idade válida.');
         meta.full_name = fullName; meta.age = age;
       }
       await api('/auth/v1/otp', { method: 'POST', headers: { Authorization: `Bearer ${SUPABASE_ANON_KEY}` }, body: JSON.stringify({ phone, create_user: state.signUp, data: meta }) });

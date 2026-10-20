@@ -15,7 +15,7 @@ O site usa o Supabase para SMS de acesso e armazenamento online. O frontend não
 
 ## Uso
 
-- Para criar cadastro, a pessoa informa nome completo, idade e telefone com DDD. Um código SMS confirma que ela controla esse telefone.
+- Para criar cadastro, a pessoa informa nome completo, data de nascimento (DD/MM/AAAA) e telefone com DDD. O site calcula a idade e guarda apenas a idade no perfil privado. Um código SMS confirma que ela controla esse telefone.
 - A pessoa escolhe de 2 a 3 produtos. O link é opcional; se preenchido, deve ser `http://` ou `https://`.
 - A lista pública mostra apenas nome, produtos e links. Telefone e idade nunca são enviados à tabela pública.
 - O botão **Minha lista** permite editar os produtos depois de entrar novamente com SMS.

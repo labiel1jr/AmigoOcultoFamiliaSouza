@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#f6f3ec">
   <meta name="description" content="Organize o amigo oculto da família e compartilhe sua lista de presentes.">
   <title>Amigo Oculto Família Souza com S e Z</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css?v=20261019-2">
 </head>
 <body>
   <header class="topbar">
@@ -32,11 +32,11 @@
   <footer><a class="brand footer-brand" href="#inicio"><span class="brand-icon">✳</span><span class="brand-name">Amigo Oculto <strong>Família Souza</strong><small>com S e Z</small></span></a><span>Feito para reunir quem a gente ama.</span><span>Com carinho, para a família Souza <b>♡</b></span></footer>
 
   <dialog id="authDialog" class="modal"><form method="dialog" class="modal-close-form"><button class="icon-button" aria-label="Fechar">×</button></form><div class="modal-inner"><div class="modal-mark">✳</div><span class="eyebrow">BOM TER VOCÊ AQUI</span><h2 id="authTitle">Entre para a família</h2><p id="authSubtitle">Vamos criar seu cantinho da lista. Você confirma o telefone com um código por SMS.</p>
-    <form id="authForm" novalidate><div id="signupFields"><label>Nome completo<input id="fullName" autocomplete="name" placeholder="Ex.: Ana Souza" required></label><label>Data de nascimento<input id="birthDate" type="text" inputmode="numeric" autocomplete="bday" maxlength="10" placeholder="DD/MM/AAAA" aria-describedby="birthDateHint" required><small id="birthDateHint">Usamos a data para calcular sua idade. Ela não aparece na lista pública.</small></label></div><div id="phoneField"><label>Telefone com DDD<input id="phone" type="tel" inputmode="numeric" autocomplete="tel-national" maxlength="15" placeholder="31 99339-5418" aria-describedby="phoneHint" required><small id="phoneHint">Digite seu telefone com DDD, sem precisar informar +55.</small></label></div><div id="codeField" class="hidden"><label>Código recebido por SMS<input id="smsCode" inputmode="numeric" autocomplete="one-time-code" placeholder="000000" maxlength="8"></label></div><p id="authError" class="form-error" role="alert"></p><button id="authSubmit" type="submit" class="primary-button full-button">Continuar <span>↗</span></button></form><button id="authMode" class="text-button" type="button">Já tenho uma conta</button><p class="privacy-note">🔒 Seu telefone e sua idade nunca aparecem nas listas públicas.</p>
+    <form id="authForm" novalidate><div id="signupFields"><label>Nome completo<input id="fullName" autocomplete="name" placeholder="Ex.: Ana Souza" required></label><label>Data de nascimento<input id="birthDate" type="text" inputmode="numeric" autocomplete="bday" maxlength="10" placeholder="DD/MM/AAAA" aria-describedby="birthDateHint" required><small id="birthDateHint">Digite os números; as barras são inseridas automaticamente. A data não aparece na lista pública.</small></label></div><div id="phoneField"><label>Telefone com DDD<input id="phone" type="tel" inputmode="numeric" autocomplete="tel-national" maxlength="15" placeholder="31 99339-5418" aria-describedby="phoneHint" required><small id="phoneHint">Digite seu telefone com DDD, sem precisar informar +55.</small></label></div><div id="codeField" class="hidden"><label>Código recebido por SMS<input id="smsCode" inputmode="numeric" autocomplete="one-time-code" placeholder="000000" maxlength="8"></label></div><p id="authError" class="form-error" role="alert"></p><button id="authSubmit" type="submit" class="primary-button full-button">Continuar <span>↗</span></button></form><button id="authMode" class="text-button" type="button">Já tenho uma conta</button><p class="privacy-note">🔒 Seu telefone e sua idade nunca aparecem nas listas públicas.</p>
   </div></dialog>
 
   <dialog id="profileDialog" class="modal profile-modal"><form method="dialog" class="modal-close-form"><button class="icon-button" aria-label="Fechar">×</button></form><div class="modal-inner"><div class="modal-mark">♡</div><span class="eyebrow">SUA LISTA DE DESEJOS</span><h2 id="profileTitle">Minha lista</h2><p>Adicione de 2 a 3 ideias. Você pode editar sua lista sempre que quiser.</p><form id="productsForm"><div id="productFields"></div><p id="productsError" class="form-error" role="alert"></p><button class="primary-button full-button" type="submit">Salvar minha lista <span>↗</span></button></form><button id="signOutButton" class="text-button" type="button">Sair da conta</button></div></dialog>
   <div id="toast" class="toast" role="status"></div>
-  <script src="app.js"></script>
+  <script src="app.js?v=20261019-2"></script>
 </body>
 </html>

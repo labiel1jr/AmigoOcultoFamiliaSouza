@@ -94,10 +94,12 @@ function formatBrazilianPhone(value) {
   if (subscriber.length <= firstGroupLength) return `${areaCode} ${subscriber}`;
   return `${areaCode} ${subscriber.slice(0, firstGroupLength)}-${subscriber.slice(firstGroupLength)}`;
 }
-function formatBirthDate(value) {
+function formatBirthDate(value, deleting = false) {
   const digits = String(value || '').replace(/\D/g, '').slice(0, 8);
-  if (digits.length <= 2) return digits;
-  if (digits.length <= 4) return `${digits.slice(0, 2)}/${digits.slice(2)}`;
+  if (digits.length < 2) return digits;
+  if (digits.length === 2) return deleting ? digits : `${digits}/`;
+  if (digits.length < 4) return `${digits.slice(0, 2)}/${digits.slice(2)}`;
+  if (digits.length === 4) return deleting ? `${digits.slice(0, 2)}/${digits.slice(2)}` : `${digits.slice(0, 2)}/${digits.slice(2)}/`;
   return `${digits.slice(0, 2)}/${digits.slice(2, 4)}/${digits.slice(4)}`;
 }
 function ageFromBirthDate(value) {
@@ -163,9 +165,9 @@ function renderAuth() {
   setError('#authError');
 }
 $('#authMode').addEventListener('click', () => { state.signUp = !state.signUp; renderAuth(); });
-$('#birthDate').addEventListener('input', event => {
+$('#birthDate')?.addEventListener('input', event => {
   const input = event.currentTarget;
-  input.value = formatBirthDate(input.value);
+  input.value = formatBirthDate(input.value, event.inputType?.startsWith('delete'));
 });
 $('#phone').addEventListener('input', event => {
   const input = event.currentTarget;
@@ -181,7 +183,9 @@ $('#authForm').addEventListener('submit', async event => {
       const phone = `+55${phoneDigits}`;
       const meta = {};
       if (state.signUp) {
-        const fullName = $('#fullName').value.trim(); const age = ageFromBirthDate($('#birthDate').value.trim());
+        const fullNameInput = $('#fullName'); const birthDateInput = $('#birthDate');
+        if (!fullNameInput || !birthDateInput) throw new Error('A página ficou desatualizada. Atualize-a e tente novamente.');
+        const fullName = fullNameInput.value.trim(); const age = ageFromBirthDate(birthDateInput.value.trim());
         if (fullName.split(/\s+/).length < 2) throw new Error('Informe seu nome completo.');
         meta.full_name = fullName; meta.age = age;
       }

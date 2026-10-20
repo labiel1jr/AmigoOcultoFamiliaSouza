@@ -1,6 +1,6 @@
-# Amigo Oculto da Família Souza
+# Amigo Oculto Família Souza com S e Z
 
-Site estático em HTML, CSS e JavaScript para cada pessoa criar um perfil, cadastrar de 2 a 3 ideias de presente e manter a lista atualizada. Qualquer visitante pode consultar as listas publicadas; idade e telefone ficam restritos ao perfil privado.
+Site estático em HTML, CSS e JavaScript para cada pessoa criar um perfil, cadastrar de 2 a 3 ideias de presente e manter a lista atualizada. A foto enviada pela família aparece no destaque da página. Qualquer visitante pode consultar as listas publicadas; idade e telefone ficam restritos ao perfil privado.
 
 ## Publicar com Supabase
 

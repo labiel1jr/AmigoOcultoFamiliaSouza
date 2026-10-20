@@ -80,9 +80,23 @@ async function api(path, options = {}) {
   if (!response.ok) throw new Error(data?.msg || data?.message || data?.error_description || data?.error || data?.hint || 'Não foi possível concluir. Tente novamente.');
   return data;
 }
+function brazilianPhoneDigits(value) {
+  let digits = String(value || '').replace(/\D/g, '');
+  if (digits.startsWith('55') && (digits.length === 12 || digits.length === 13)) digits = digits.slice(2);
+  return digits;
+}
+function formatBrazilianPhone(value) {
+  const digits = brazilianPhoneDigits(value).slice(0, 11);
+  if (digits.length <= 2) return digits;
+  const areaCode = digits.slice(0, 2);
+  const subscriber = digits.slice(2);
+  const firstGroupLength = digits.length === 11 ? 5 : 4;
+  if (subscriber.length <= firstGroupLength) return `${areaCode} ${subscriber}`;
+  return `${areaCode} ${subscriber.slice(0, firstGroupLength)}-${subscriber.slice(firstGroupLength)}`;
+}
 function formatError(error) {
   const message = error.message || '';
-  if (/invalid phone|phone.*invalid/i.test(message)) return 'Confira o telefone. Use o código do país, DDD e número (ex.: +5511999999999).';
+  if (/invalid phone|phone.*invalid/i.test(message)) return 'Confira o telefone. Digite o DDD e o número, com 10 ou 11 dígitos (ex.: 31 99339-5418).';
   if (/rate limit|too many/i.test(message)) return 'Muitas tentativas seguidas. Aguarde alguns minutos e tente de novo.';
   if (/already registered|already exists/i.test(message)) return 'Este telefone já tem cadastro. Escolha “Já tenho uma conta” para entrar.';
   if (/not found|does not exist/i.test(message)) return 'Não encontramos esse cadastro. Crie sua lista primeiro.';
@@ -128,14 +142,18 @@ function renderAuth() {
   setError('#authError');
 }
 $('#authMode').addEventListener('click', () => { state.signUp = !state.signUp; renderAuth(); });
+$('#phone').addEventListener('input', event => {
+  const input = event.currentTarget;
+  input.value = formatBrazilianPhone(input.value);
+});
 $('#authForm').addEventListener('submit', async event => {
   event.preventDefault(); setError('#authError');
   const button = $('#authSubmit'); button.disabled = true;
   try {
     if (!state.waitingForCode) {
-      let phone = $('#phone').value.trim().replace(/[\s().-]/g, '');
-      if (/^\d{10,11}$/.test(phone)) phone = `+55${phone}`;
-      if (!/^\+[1-9]\d{7,14}$/.test(phone)) throw new Error('Informe o telefone com código do país e DDD (ex.: +5511999999999).');
+      const phoneDigits = brazilianPhoneDigits($('#phone').value);
+      if (!/^\d{10,11}$/.test(phoneDigits)) throw new Error('Informe um telefone brasileiro válido com DDD (10 ou 11 dígitos).');
+      const phone = `+55${phoneDigits}`;
       const meta = {};
       if (state.signUp) {
         const fullName = $('#fullName').value.trim(); const age = Number($('#age').value);

@@ -119,13 +119,22 @@ function ageFromBirthDate(value) {
 }
 function formatError(error) {
   const message = error.message || '';
+  if (/unsupported phone provider|phone provider.*(disabled|not enabled)|phone.*provider.*unsupported/i.test(message)) {
+    return 'O cadastro por telefone ainda não está habilitado. No Supabase, ative Authentication → Sign In / Providers → Phone e configure um serviço de envio de SMS.';
+  }
+  if (/sms.*(not configured|not enabled|failed)|provider.*not configured|error sending sms|twilio/i.test(message)) {
+    return 'Não foi possível enviar o SMS. Confira se o provedor Phone está ativo e se o serviço de SMS está configurado no Supabase.';
+  }
   if (/invalid phone|phone.*invalid/i.test(message)) return 'Confira o telefone. Digite o DDD e o número, com 10 ou 11 dígitos (ex.: 31 99339-5418).';
   if (/rate limit|too many/i.test(message)) return 'Muitas tentativas seguidas. Aguarde alguns minutos e tente de novo.';
-  if (/already registered|already exists/i.test(message)) return 'Este telefone já tem cadastro. Escolha “Já tenho uma conta” para entrar.';
+  if (/already registered|already exists|duplicate key.*user/i.test(message)) return 'Este telefone já tem cadastro. Escolha “Já tenho uma conta” para entrar.';
   if (/not found|does not exist/i.test(message)) return 'Não encontramos esse cadastro. Crie sua lista primeiro.';
   if (/invalid.*token|otp.*expired|token.*expired/i.test(message)) return 'Código inválido ou expirado. Peça um novo código e tente novamente.';
   if (/Failed to fetch/i.test(message)) return 'Não foi possível conectar ao serviço. Confira a conexão e a configuração Supabase.';
-  return message;
+  if (/database error saving new user|valid full name and age are required/i.test(message)) return 'Não foi possível criar o cadastro. Confira seu nome e sua data de nascimento e tente novamente.';
+  if (/row-level security|permission denied|not allowed/i.test(message)) return 'Não foi possível salvar os dados por falta de autorização. Entre novamente e tente de novo.';
+  if (/^(Informe|Confira|Escolha|A data|A idade|A página|Não recebemos|Não encontramos|Código inválido)/i.test(message)) return message;
+  return 'Não foi possível concluir. Confira os dados e tente novamente.';
 }
 
 async function loadPeople() {
